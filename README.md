@@ -61,7 +61,7 @@ You will also need:
 ```bash
 cd frontend
 npm install
-touch .env
+cp .env.example .env
 ```
 
 * In your `.gitignore`, ensure it includes:
@@ -132,9 +132,14 @@ touch .env
 * Add the values from `firebaseConfig` like so:
 
   ```
-  VITE_API_KEY=your-api-key
-  VITE_AUTH_DOMAIN=your-auth-domain
-  ...
+  VITE_API_BASE_URL=http://127.0.0.1:5001
+  VITE_FIREBASE_API_KEY=your-api-key
+  VITE_FIREBASE_AUTH_DOMAIN=your-auth-domain
+  VITE_FIREBASE_PROJECT_ID=your-project-id
+  VITE_FIREBASE_STORAGE_BUCKET=your-storage-bucket
+  VITE_FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id
+  VITE_FIREBASE_APP_ID=your-app-id
+  VITE_FIREBASE_MEASUREMENT_ID=your-measurement-id
   ```
 
 ---
@@ -150,7 +155,7 @@ source venv/bin/activate      # Mac/Linux
 venv\Scripts\activate         # Windows
 
 pip install -r requirements.txt
-touch .env
+cp .env.example .env
 ```
 
 #### Add the following to `backend/.env`:
@@ -175,6 +180,12 @@ app/__pycache__/
 python3 run.py
 ```
 
+The backend runs on port `5001`, so the frontend `.env` should keep:
+
+```env
+VITE_API_BASE_URL=http://127.0.0.1:5001
+```
+
 ---
 
 ### ✅ Running the Full App Locally
@@ -193,4 +204,3 @@ python3 run.py
   source venv/bin/activate
   python3 run.py
   ```
-

@@ -39,7 +39,7 @@ body {
     justify-content: space-between;
 }
 
-.login:hover, .sign-up:hover, .dashboard:hover {
+.login:hover, .sign-up:hover, .dashboard:hover, .home-link:hover {
     color: #FF6C03;
     cursor: pointer;
   }

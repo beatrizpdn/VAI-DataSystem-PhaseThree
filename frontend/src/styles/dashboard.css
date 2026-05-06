@@ -17,7 +17,31 @@
     transition: background-color 0.3s;  
 }
 
-.charts-container {
+  .dashboard-tabs {
+    display: flex;
+    gap: 0.8rem;
+    margin: 2rem 10rem 0;
+  }
+
+  .dashboard-tab {
+    border: 1px solid #c8d6e5;
+    background: #f7fafc;
+    color: #1c2a39;
+    border-radius: 999px;
+    padding: 0.8rem 1.2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .dashboard-tab.is-active {
+    background: #1c2a39;
+    color: #ffffff;
+    border-color: #1c2a39;
+  }
+
+  .charts-container {
     display: flex;
     flex-wrap: wrap;
     gap: 2rem;
@@ -25,16 +49,128 @@
     justify-content: center;
   }
 
+  .dashboard-charts-section {
+    position: relative;
+  }
+
+  .dashboard-chart-loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.65);
+    z-index: 5;
+  }
+
+  .charts-container-loading {
+    opacity: 0.45;
+  }
+
   .dashboard-controls {
-    margin: 5rem 10rem;
+    margin: 2rem 10rem 5rem;
     display: flex;
     gap: 0.75rem;
     align-items: center;
+    flex-wrap: wrap;
     font-size: 1.2em;
   }
 
-  #chart-type {
+  #chart-type,
+  #installation-filter,
+  #zipcode-filter {
     font-size: 0.9em;
+    padding: 0.35rem 0.5rem;
+  }
+
+  .download-split-button {
+    display: inline-flex;
+    align-items: stretch;
+    margin-left: auto;
+  }
+
+  .dashboard-download-button {
+    border-radius: 0;
+    position: relative;
+    z-index: 1;
+    margin-top: 0;
+    height: 3.25rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 1;
+  }
+
+  .dashboard-download-main {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    border-top-left-radius: 999px;
+    border-bottom-left-radius: 999px;
+    border-right: 1px solid rgba(255, 255, 255, 0.35);
+  }
+
+  .dashboard-download-single {
+    border-top-right-radius: 999px;
+    border-bottom-right-radius: 999px;
+    border-right: none;
+  }
+
+  .dashboard-download-toggle {
+    width: 3.25rem;
+    min-width: 3.25rem;
+    padding-left: 0;
+    padding-right: 0;
+    border-top-right-radius: 999px;
+    border-bottom-right-radius: 999px;
+  }
+
+  .dashboard-download-dropdown {
+    position: relative;
+    display: inline-flex;
+    align-items: stretch;
+  }
+
+  .dashboard-download-caret {
+    display: inline-block;
+    font-size: 0.9rem;
+    transform: translateY(-1px);
+  }
+
+  .dashboard-download-menu {
+    position: absolute;
+    top: calc(100% + 0.2rem);
+    right: 0;
+    display: none;
+    min-width: 13rem;
+    padding: 0.4rem;
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.18);
+    border: 1px solid #d9d9d9;
+    z-index: 10;
+  }
+
+  .dashboard-download-menu.is-open {
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .dashboard-download-menu button {
+    border: none;
+    background: transparent;
+    text-align: left;
+    padding: 0.7rem 0.85rem;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+
+  .dashboard-download-menu button:hover,
+  .dashboard-download-menu button:focus {
+    background: #f2f6ff;
+    outline: none;
   }
 
   .chart-block {
@@ -54,6 +190,136 @@
   .chart-block canvas {
     height: 100% !important;
     width: 100% !important;
+  }
+
+  .dashboard-empty-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 30vh;
+    text-align: center;
+    color: #333;
+    padding: 2rem;
+  }
+
+  .metrics-dashboard {
+    padding: 1rem 10rem 3rem;
+  }
+
+  .metrics-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .metric-card {
+    position: relative;
+    border-radius: 22px;
+    padding: 1.35rem 1.4rem;
+    color: #102033;
+    box-shadow: 0 12px 28px rgba(16, 32, 51, 0.08);
+  }
+
+  .metric-card-sky {
+    background: linear-gradient(135deg, #dff4ff, #bce8ff);
+  }
+
+  .metric-card-orange {
+    background: linear-gradient(135deg, #fff0d9, #ffd39f);
+  }
+
+  .metric-card-green {
+    background: linear-gradient(135deg, #e4f9ea, #bcecc7);
+  }
+
+  .metric-card-navy {
+    background: linear-gradient(135deg, #dce8ff, #b8d0ff);
+  }
+
+  .metric-card-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .metric-card-info {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .metric-card-info-button {
+    width: 1.65rem;
+    height: 1.65rem;
+    border-radius: 999px;
+    border: 1px solid rgba(16, 32, 51, 0.18);
+    background: rgba(255, 255, 255, 0.78);
+    color: #102033;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .metric-card-tooltip {
+    position: absolute;
+    top: calc(100% + 0.45rem);
+    right: 0;
+    width: 220px;
+    padding: 0.75rem 0.85rem;
+    border-radius: 14px;
+    background: #102033;
+    color: #ffffff;
+    font-size: 0.82rem;
+    line-height: 1.4;
+    box-shadow: 0 14px 30px rgba(16, 32, 51, 0.22);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-4px);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    z-index: 8;
+  }
+
+  .metric-card-info:hover .metric-card-tooltip,
+  .metric-card-info:focus-within .metric-card-tooltip {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .metric-card-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    opacity: 0.8;
+  }
+
+  .metric-card-value {
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .metrics-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+
+  .metrics-panel {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 1.4rem;
+    box-shadow: 0 12px 28px rgba(16, 32, 51, 0.08);
+    border: 1px solid #e5edf5;
+  }
+
+  .metrics-panel h3 {
+    margin-top: 0;
+    margin-bottom: 0.9rem;
+  }
+
+  .metrics-panel p {
+    margin: 0.45rem 0;
+    line-height: 1.5;
   }
   
   

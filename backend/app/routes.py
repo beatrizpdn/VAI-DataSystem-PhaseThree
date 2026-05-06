@@ -4,12 +4,10 @@ from flask import Blueprint, request, jsonify, send_file, current_app
 from firebase_admin import auth, firestore
 import io
 import zipfile
-import os
-import pandas as pd
 from app.models import UserSignUp, SurveyResponse
 
 
-from app.utils import SurveyAnalyzer, load_responses_from_firestore, save_graphs_to_pdf, clean_firestore_responses
+from app.utils import SurveyAnalyzer, load_responses_from_firestore, save_graphs_to_pdf, clean_firestore_responses, filter_responses, calculate_dashboard_metrics, save_metrics_to_pdf
 
 main = Blueprint('main', __name__)
 
@@ -131,22 +129,70 @@ def get_survey_responses():
 @main.route('/generate-report', methods=['GET'])
 def generate_report():
     try:
+        download_format = request.args.get('format', 'both').lower()
+        dashboard_tab = request.args.get('tab', 'visualization').lower()
+        installation_id = request.args.get('installationId', 'all')
+        zip_code = request.args.get('zipCode', 'all')
+        valid_formats = {'csv', 'pdf', 'both', 'metrics_pdf'}
+
+        if download_format not in valid_formats:
+            return jsonify({"error": "Invalid format. Choose csv, pdf, both, or metrics_pdf."}), 400
+
         raw_responses = load_responses_from_firestore()
         responses = clean_firestore_responses(raw_responses, question_map)
-        analyzer = SurveyAnalyzer(responses, question_map)
+
+        if dashboard_tab == 'metrics':
+            responses = filter_responses(responses, installation_id=installation_id, zip_code='all')
+        else:
+            responses = filter_responses(responses, installation_id=installation_id, zip_code=zip_code)
 
         if not responses:
             return jsonify({"error": "No survey responses found to generate report."}), 400
 
-        analyzer = SurveyAnalyzer(responses, question_map)
+        if dashboard_tab == 'metrics' or download_format == 'metrics_pdf':
+            metrics_pdf_path = 'key_metrics_summary.pdf'
+            metrics = calculate_dashboard_metrics(responses)
+            save_metrics_to_pdf(metrics, metrics_pdf_path, installation_id=installation_id)
 
-        print(f"Sample Firestore response: {responses[:2]}")
+            with open(metrics_pdf_path, 'rb') as pdf_file:
+                pdf_buffer = io.BytesIO(pdf_file.read())
+            pdf_buffer.seek(0)
+            return send_file(
+                pdf_buffer,
+                mimetype='application/pdf',
+                as_attachment=True,
+                download_name='key_metrics_summary.pdf'
+            )
+
+        analyzer = SurveyAnalyzer(responses, question_map)
         csv_path = 'survey_summary.csv'
         pdf_path = 'survey_graphs_summary.pdf'
 
         analyzer.export_summary_csv(csv_path)
         analyzer.generate_graphs('survey_graphs')
         save_graphs_to_pdf('survey_graphs', pdf_path, question_map)
+
+        if download_format == 'csv':
+            with open(csv_path, 'rb') as csv_file:
+                csv_buffer = io.BytesIO(csv_file.read())
+            csv_buffer.seek(0)
+            return send_file(
+                csv_buffer,
+                mimetype='text/csv',
+                as_attachment=True,
+                download_name='survey_summary.csv'
+            )
+
+        if download_format == 'pdf':
+            with open(pdf_path, 'rb') as pdf_file:
+                pdf_buffer = io.BytesIO(pdf_file.read())
+            pdf_buffer.seek(0)
+            return send_file(
+                pdf_buffer,
+                mimetype='application/pdf',
+                as_attachment=True,
+                download_name='survey_graphs_summary.pdf'
+            )
 
         memory_file = io.BytesIO()
         with zipfile.ZipFile(memory_file, 'w') as zf:

@@ -75,17 +75,18 @@ export default function SurveyQuestion({
                         Submit
                     </button>
                 )}
-                <button 
-                    type="button" 
-                    className="nav-button next-button" 
-                    onClick={onNext} 
-                    disabled={isNextDisabled}
-                >
-                    Next
-                </button>
+                {!isLast && (
+                    <button 
+                        type="button" 
+                        className="nav-button next-button" 
+                        onClick={onNext} 
+                        disabled={isNextDisabled}
+                    >
+                        Next
+                    </button>
+                )}
             </div>
         </div>
     );
 }
-
 

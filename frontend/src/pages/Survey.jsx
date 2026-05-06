@@ -1,13 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SurveyQuestion from '../components/SurveyQuestion';
 import Logo from '../components/Logo';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/survey.css';
 import API from '../utils/apiClient';
 import surveyQuestions from '../data/surveyQuestions';
 
+const installations = {
+  '1': {
+    name: 'Common Ground',
+    image: '/Common_Ground.jpeg',
+  },
+  '2': {
+    name: 'Breathing Pavilion',
+    image: '/Breathing_Pavilion.jpeg',
+  },
+};
+
 export default function SurveyPage() {
-  const [installationId] = useState('1');
+  const location = useLocation();
+  const selectedInstallationId = location.state?.installationId || '1';
+  const installation = installations[selectedInstallationId] || installations['1'];
+  const [installationId] = useState(selectedInstallationId);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [error, setError] = useState('');
@@ -15,6 +29,15 @@ export default function SurveyPage() {
 
   const current = surveyQuestions[currentIndex];
   const questionKey = current.questionId;
+
+  useEffect(() => {
+    if (current.type === 'range' && !answers[questionKey]) {
+      setAnswers((prev) => ({
+        ...prev,
+        [questionKey]: ['3'],
+      }));
+    }
+  }, [current.type, questionKey, answers]);
 
   const handleAnswerChange = (key, answer) => {
     setAnswers((prev) => ({
@@ -62,9 +85,8 @@ export default function SurveyPage() {
     <>
       <Logo />
       <div className="survey-page">
-        {/* this is a placeholder */}
-        <h2>Common Ground</h2>
-        <img src="/Common_Ground.jpeg" alt="Installation 1" className="survey-img" />
+        <h2>{installation.name}</h2>
+        <img src={installation.image} alt={installation.name} className="survey-img" />
         <br></br>
 
         <div className="progress-container">
@@ -100,4 +122,3 @@ export default function SurveyPage() {
     </>
   );
 }
-

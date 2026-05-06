@@ -20,6 +20,7 @@ export default function Navbar() {
             <div className="navbar-container">
             <Logo />
             <div className="login-sign-up">
+                <h2 className='home-link' onClick={() => navigate('/')}>Home</h2>
                 <h2 className='dashboard' onClick={() => navigate('/dashboard')}>Dashboard</h2>
                 <h2 className='login' onClick={handleLogout}>Logout</h2>
             </div>
