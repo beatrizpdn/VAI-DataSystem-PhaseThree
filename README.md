@@ -130,11 +130,15 @@ npm run dev
 
 #### 5. Register the Web App
 
-* Go to **Project Settings > Your Apps**
+* Hover over **Settings**
+* Click **General**
+* Scroll down to the **Your apps** section
 * Click the `</>` Web icon
 * App name: `VAI-Web`
 * Uncheck/Skip Firebase Hosting for now
-* Copy the generated `firebaseConfig` object
+* Click **Register app**
+* In the **Use npm** section, click **Copy to clipboard** to copy the generated `firebaseConfig` object
+* Click **Continue to console**
 
 #### 6. Add Firebase Values to the Frontend
 
