@@ -58,31 +58,36 @@ You will also need:
 
 ### 🌐 Frontend Setup
 
-```bash
-cd frontend
-npm install
-cp .env.example .env
+1. Open the project folder and go into the `frontend` folder.
+2. Install the frontend packages:
+
+   ```bash
+   cd frontend
+   npm install
+   ```
+
+3. In the `frontend` folder, make a copy of the file named `.env.example`.
+4. Rename the copied file to `.env`.
+5. Open the new `.env` file and paste in your Firebase web app values.
+
+Use the following field names in `frontend/.env`:
+
+```env
+VITE_API_BASE_URL=http://127.0.0.1:5001
+VITE_FIREBASE_API_KEY=your-api-key
+VITE_FIREBASE_AUTH_DOMAIN=your-auth-domain
+VITE_FIREBASE_PROJECT_ID=your-project-id
+VITE_FIREBASE_STORAGE_BUCKET=your-storage-bucket
+VITE_FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id
+VITE_FIREBASE_APP_ID=your-app-id
+VITE_FIREBASE_MEASUREMENT_ID=your-measurement-id
 ```
 
-* In your `.gitignore`, ensure it includes:
+6. Start the frontend:
 
-  ```
-  **/.env
-  ```
-
-* If you accidentally push your `.env`:
-
-  ```bash
-  git rm --cached frontend/.env
-  git commit -m "remove .env from tracking"
-  git push
-  ```
-
-* To run the frontend server:
-
-  ```bash
-  npm run dev
-  ```
+```bash
+npm run dev
+```
 
 ---
 
@@ -127,54 +132,50 @@ cp .env.example .env
 * Uncheck/Skip Firebase Hosting for now
 * Copy the generated `firebaseConfig` object
 
-#### 6. Update `.env` in `frontend/`
+#### 6. Add Firebase Values to the Frontend
 
-* Add the values from `firebaseConfig` like so:
-
-  ```
-  VITE_API_BASE_URL=http://127.0.0.1:5001
-  VITE_FIREBASE_API_KEY=your-api-key
-  VITE_FIREBASE_AUTH_DOMAIN=your-auth-domain
-  VITE_FIREBASE_PROJECT_ID=your-project-id
-  VITE_FIREBASE_STORAGE_BUCKET=your-storage-bucket
-  VITE_FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id
-  VITE_FIREBASE_APP_ID=your-app-id
-  VITE_FIREBASE_MEASUREMENT_ID=your-measurement-id
-  ```
+* Paste the values from your Firebase web app into `frontend/.env`.
+* The field names must match the template shown above.
 
 ---
 
 ### 🖥️ Backend Setup
 
-```bash
-cd ..
-cd backend
-python3 -m venv venv
-source venv/bin/activate      # Mac/Linux
-# OR
-venv\Scripts\activate         # Windows
+1. Go into the `backend` folder:
 
-pip install -r requirements.txt
-cp .env.example .env
-```
+   ```bash
+   cd ../backend
+   ```
 
-#### Add the following to `backend/.env`:
+2. Create and activate a Python virtual environment:
 
-```
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
+
+3. Install the backend packages:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. In the `backend` folder, make a copy of the file named `.env.example`.
+5. Rename the copied file to `.env`.
+6. Confirm that `backend/.env` contains:
+
+```env
 FIREBASE_KEY_PATH=app/firebase_key.json
 FRONTEND_URL=http://localhost:5173
 ```
 
-#### Ensure your `.gitignore` includes:
+7. Make sure your Firebase service account file is saved here:
 
-```
-venv/
-.env
-app/firebase_key.json
-app/__pycache__/
+```text
+backend/app/firebase_key.json
 ```
 
-#### Run the Backend:
+8. Start the backend:
 
 ```bash
 python3 run.py
