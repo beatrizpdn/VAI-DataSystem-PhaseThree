@@ -118,7 +118,9 @@ npm run dev
 
 #### 4. Enable Authentication
 
-* Navigate to **Build > Authentication > Sign-in Method**
+* In the left-hand navigation, hover over **Security**
+* Select **Authentication**
+* Open the **Sign-in method** tab
 * Enable **Email/Password**
 * Click **Save**
 
