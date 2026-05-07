@@ -45,13 +45,13 @@ You will also need:
 
 #### 1. Fork and Clone the Repository
 
-* Repository: [https://github.com/iden-a/VAI-DataSystem](https://github.com/iden-a/VAI-DataSystem)
+* Repository: [https://github.com/beatrizpdn/VAI-DataSystem-PhaseThree](https://github.com/beatrizpdn/VAI-DataSystem-PhaseThree)
 * Click the **"Fork"** button in GitHub
 * After forking, clone it:
 
   ```bash
-  git clone git@github.com:your-username/VAI-DataSystem.git
-  cd VAI-DataSystem
+  git clone git@github.com:your-username/VAI-DataSystem-PhaseThree.git
+  cd VAI-DataSystem-PhaseThree
   ```
 
 ---
