@@ -50,7 +50,7 @@ You will also need:
 * After forking, clone it:
 
   ```bash
-  git clone git@github.com:your-username/VAI-DataSystem-PhaseThree.git
+  git clone https://github.com/gitbackuptest/VAI-DataSystem-PhaseThree.git
   cd VAI-DataSystem-PhaseThree
   ```
 
