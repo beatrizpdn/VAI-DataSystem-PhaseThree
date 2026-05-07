@@ -101,8 +101,12 @@ npm run dev
 
 #### 2. Set Up Firestore Database
 
-* Navigate to **Build > Firestore Database**
-* Click **Next**, select **Start in production mode**, then click **Create**
+* In the left-hand navigation, hover over **Databases & Storage**
+* Select **Firestore**
+* Click **Create database**
+* Click **Next**
+* Select **Start in production mode**
+* Click **Create**
 
 #### 3. Generate Service Account Key
 
