@@ -93,8 +93,6 @@ npm run dev
 
 ### 🔥 Firebase / Firestore Setup
 
-#### 🔧 Video Guide (watch up to 3:35): [Firebase Setup Video](#)
-
 #### 1. Create Firebase Project
 
 * Go to: [Firebase Console](https://console.firebase.google.com)
